@@ -30,7 +30,7 @@ db_s.init_app(app)
 # Cargamos las rutas creadas desde el archivo routes.py
 cargar_rutas(app)
 
-app.run(port=8000)
+app.run(port=8000, debug=True)
 
 # El método run le va a indicar a nuestro servidor que va a comenzar
 # a recibir peticiones (servir)
