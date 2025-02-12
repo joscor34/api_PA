@@ -86,5 +86,12 @@
             <button type="submit" class="submit-btn">Ingresar</button>
         </form>
     </div>
+    {% if estado %}
+    <div>
+        <h1>Error</h1>
+        <p style="color: red;">El correo o la contraseña está mal</p>
+    </div>
+    {% endif %}
+
 </body>
 </html>

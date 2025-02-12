@@ -90,5 +90,14 @@
             <button type="submit" class="submit-btn">Registrarse</button>
         </form>
     </div>
+
+    {% if estado %}
+
+        <div>
+            <h1>Error</h1>
+            <p style="color: red">El correo ya está registrado</p>
+        </div>
+
+    {% endif %}
 </body>
 </html>
