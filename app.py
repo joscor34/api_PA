@@ -9,7 +9,7 @@ from flask import Flask
 from routes import cargar_rutas
 
 
-from extensions import db_s
+from extensions import db_s, jwt
 
 # flask: Librería
 # Flask: módulo (clase)
@@ -23,8 +23,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres.loimcqxxexnbaykzo
 # 2.- Desactivamos el seguimiento de modificaciones
 app.config['SQLACHEMY_TRACK_MODIFICATIONS'] = False
 
+# 3.- Agregamos una firma para nuestros tokens
+app.config['JWT_SECRET_KEY'] = 'v1ltB3yWCyyVs9T02uzrI9TNNj7RbB'
 
 db_s.init_app(app)
+
+
+# Establecemos "conexión" entre jwt y la aplicación
+jwt.init_app(app)
 
 
 # Cargamos las rutas creadas desde el archivo routes.py

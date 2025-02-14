@@ -1,27 +1,14 @@
 # Este archivo va a almacenar única y exclusivamente rutas de nuestro servidor
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, make_response
 
 from methods import crear_cuenta, iniciar_sesion, encontrar_todos_los_usuarios
 
 def cargar_rutas(app):
 # Este bloque de código es la base para todas rutas
-  @app.route('/<status>')
-  def pagina(status):
+  @app.route('/')
+  def pagina():
     # Buscamos todos los datos en la tabla "usuarios"
 
-    lista_usuarios = encontrar_todos_los_usuarios()
-
-  
-#     for usuario in lista_usuarios:
-#       print(f''' 
-#     nombre usuario: {usuario.name}
-#     correo usuario: {usuario.email}
-#     contraseña usuario: {usuario.password}
-    
-# ''')
-
-
-    print(status)
     return render_template('index.html')
 
   # Esta es otra ruta
@@ -52,14 +39,18 @@ def cargar_rutas(app):
       Contraseña: {password}
   ''')
 
-    respuesta_login = iniciar_sesion()
+    respuesta_login = iniciar_sesion(correo, password)
 
 
     if respuesta_login['status'] == 'error':
       return redirect(url_for('informacion_jose', status=respuesta_login['status']))
 
+    # Si lo de arriba no se cumple, significa que tenemos un token
+    respuesta = make_response(redirect(url_for('pagina')))
 
-    return redirect(url_for('pagina'))
+    respuesta.set_cookie('access_token', respuesta_login['token'], secure=True, max_age=3600)
+
+    return respuesta
 
   # Interceptamos la información del Sign Up del usuario
   @app.route('/datos_crear_cuenta', methods=['POST'])
